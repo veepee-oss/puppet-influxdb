@@ -1,0 +1,7 @@
+.git
+.gitmodules
+.kitchen
+pkg/*
+test/*
+test/integration/*
+test/integration/default/serverspec/*

@@ -1,0 +1,64 @@
+# == Class: influxdb
+#
+# Puppet module to install, deploy and configure influxdb.
+#
+class influxdb (
+  $package                = true,
+  $service                = true,
+  $enable                 = true,
+  $influxdb_package_name  = $influxdb::params::influxdb_package_name,
+  $influxdb_service_name  = $influxdb::params::influxdb_service_name,
+  # daemon settings
+  $hostname               = $::fqdn,
+  $libdir                 = $influxdb::params::libdir,
+  $admin_enable           = $influxdb::params::admin_enable,
+  $admin_bind_address     = $influxdb::params::admin_bind_address,
+  $http_enable            = $influxdb::params::http_enable,
+  $http_bind_address      = $influxdb::params::http_bind_address,
+  $http_auth_enabled      = $influxdb::params::http_auth_enabled,
+  $http_realm             = $influxdb::params::http_realm,
+  $http_log_enabled       = $influxdb::params::http_log_enabled,
+  $https_enable           = $influxdb::params::https_enable,
+  $http_bind_socket       = $influxdb::params::http_bind_socket
+) inherits influxdb::params {
+  case $package {
+    true    : { $ensure_package = 'present' }
+    false   : { $ensure_package = 'purged' }
+    latest  : { $ensure_package = 'latest' }
+    default : { fail('package must be true, false or lastest') }
+  }
+
+  case $service {
+    true    : { $ensure_service = 'running' }
+    false   : { $ensure_service = 'stopped' }
+    running : { $ensure_service = 'running' }
+    default : { fail('service must be true, false or running') }
+  }
+
+  class { 'influxdb::repos': }
+
+  package { $influxdb_package_name:
+    ensure  => $ensure_package,
+    require => Class['influxdb::repos'],
+  }
+
+  service { $influxdb_service_name:
+    ensure     => $ensure_service,
+    enable     => $enable,
+    hasrestart => true,
+    hasstatus  => true,
+    require    => Package[$influxdb_package_name],
+  }
+
+  file { '/etc/influxdb/influxdb.conf':
+    ensure  => $ensure_package,
+    path    => '/etc/influxdb/influxdb.conf',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template('influxdb/influxdb.conf.erb'),
+    require => Package[$influxdb_package_name],
+    notify  => Service[$influxdb_service_name],
+  }
+}
+# EOF

@@ -1,0 +1,212 @@
+---
+# https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+
+stages:
+  - commit
+  - syntax
+  - test-centos
+  - test-debian
+  - test-devuan
+  - test-ubuntu
+  - module
+
+# commit
+git-history:
+  tags:
+    - puppet
+  stage: commit
+  script:
+    - >
+      bash <(curl -s
+      https://gitlab.com/yue-script/checks/raw/master/check_git_history.sh)
+
+lines-length:
+  tags:
+    - puppet
+  stage: commit
+  script:
+    - >
+      bash <(curl -s
+      https://gitlab.com/yue-script/checks/raw/master/check_lines_length.sh)
+      80 templates/* files/*
+
+# syntax
+erb-lint:
+  tags:
+    - puppet
+  stage: syntax
+  image: vpgrp/puppet
+  script:
+    - rails-erb-lint check --path=templates
+
+json-lint:
+  tags:
+    - puppet
+  stage: syntax
+  image: vpgrp/puppet
+  script:
+    - metadata-json-lint metadata.json
+
+puppet-lint:
+  tags:
+    - puppet
+  stage: syntax
+  image: vpgrp/puppet
+  script:
+    - puppet-lint --fail-on-warnings .
+
+rubocop:
+  tags:
+    - puppet
+  stage: syntax
+  image: vpgrp/puppet
+  script:
+    - rubocop .
+
+yaml-lint:
+  tags:
+    - puppet
+  stage: syntax
+  image: vpgrp/puppet
+  script:
+    - yaml-lint .gitlab-ci.yml
+    - yaml-lint .kitchen.yml
+    - yaml-lint .puppetforge.yml
+
+# puppet
+centos-6:
+  tags:
+    - puppet
+  stage: test-centos
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color centos-centos-6
+
+centos-7:
+  tags:
+    - puppet
+  stage: test-centos
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color centos-centos-7
+
+# Ruby 1.9 issue with Debian 5
+# debian-5:
+#   tags:
+#     - puppet
+#   stage: test-debian
+#   image: vpgrp/kitchen
+#   script:
+#     - kitchen test --destroy=always --color debian-debian-5
+#     - kitchen test --destroy=always --color debian-debian-5-bpo
+#   allow_failure: true
+
+debian-6:
+  tags:
+    - puppet
+  stage: test-debian
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color debian-debian-6
+    - kitchen test --destroy=always --color debian-debian-6-bpo
+  allow_failure: true
+
+debian-7:
+  tags:
+    - puppet
+  stage: test-debian
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color debian-debian-7
+    - kitchen test --destroy=always --color debian-debian-7-bpo
+
+debian-8:
+  tags:
+    - puppet
+  stage: test-debian
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color debian-debian-8
+    - kitchen test --destroy=always --color debian-debian-8-bpo
+
+debian-9:
+  tags:
+    - puppet
+  stage: test-debian
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color debian-debian-9
+    - kitchen test --destroy=always --color debian-debian-9-bpo
+
+debian-10:
+  tags:
+    - puppet
+  stage: test-debian
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color debian-debian-10
+    - kitchen test --destroy=always --color debian-debian-10-bpo
+
+# Serverspec issue with Devuan 1
+# devuan-1:
+#   tags:
+#     - puppet
+#   stage: test-devuan
+#   image: vpgrp/kitchen
+#   script:
+#     - kitchen test --destroy=always --color devuan-devuan-1
+#   allow_failure: true
+
+# Ruby 1.9 issue with Ubuntu 10.04
+# ubuntu-10.04:
+#   tags:
+#     - puppet
+#   stage: test-ubuntu
+#   image: vpgrp/kitchen
+#   script:
+#     - kitchen test --destroy=always --color ubuntu-ubuntu-10-04
+#   allow_failure: true
+
+ubuntu-12.04:
+  tags:
+    - puppet
+  stage: test-ubuntu
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color ubuntu-ubuntu-12-04
+
+ubuntu-14.04:
+  tags:
+    - puppet
+  stage: test-ubuntu
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color ubuntu-ubuntu-14-04
+
+ubuntu-16.04:
+  tags:
+    - puppet
+  stage: test-ubuntu
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color ubuntu-ubuntu-16-04
+
+# create module
+create-module:
+  tags:
+    - puppet
+  stage: module
+  image: vpgrp/puppet
+  script:
+    - puppet module build
+
+publish-module:
+  tags:
+    - puppet
+  stage: module
+  only:
+    - master
+  image: vpgrp/puppet
+  script:
+    - rake module:push
+# EOF
