@@ -3,10 +3,10 @@
 # This is a container class holding default parameters for influxdb module.
 #
 class influxdb::repos (
-  $location              = $influxdb::params::location,
-  $release               = $influxdb::params::release,
-  $repos                 = $influxdb::params::repos,
-  $key                   = $influxdb::params::key,
+  $apt_location          = $influxdb::params::apt_location,
+  $apt_release           = $influxdb::params::apt_release,
+  $apt_repos             = $influxdb::params::apt_repos,
+  $apt_key               = $influxdb::params::apt_key,
   $influxdb_package_name = $influxdb::params::influxdb_package_name,
   $influxdb_service_name = $influxdb::params::influxdb_service_name
 ) inherits influxdb::params {
@@ -18,10 +18,10 @@ class influxdb::repos (
 
       apt::source { 'influxdb':
         ensure      => present,
-        location    => $location,
-        release     => $release,
-        repos       => $repos,
-        key         => $key,
+        location    => $apt_location,
+        release     => $apt_release,
+        repos       => $apt_repos,
+        key         => $apt_key,
         include_src => false,
       }
     }

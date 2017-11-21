@@ -6,8 +6,9 @@ exec { 'apt-get update':
 }
 
 class { 'influxdb':
-  package => true,
-  service => true,
-  require => Exec['apt-get update'],
+  apt_location => 'http://mirror.vpgrp.io/debian-influxdb',
+  package      => true,
+  service      => true,
+  require      => Exec['apt-get update'],
 }
 # EOF
