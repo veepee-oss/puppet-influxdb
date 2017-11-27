@@ -35,7 +35,7 @@ erb-lint:
 
 json-lint:
   stage: syntax
-  image: vpgrp/linter:json
+  image: vpgrp/linter:puppet
   script:
     - metadata-json-lint metadata.json
 
