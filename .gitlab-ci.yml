@@ -29,31 +29,31 @@ lines-length:
 # syntax
 erb-lint:
   stage: syntax
-  image: vpgrp/puppet
+  image: vpgrp/linter:puppet
   script:
     - rails-erb-lint check --path=templates
 
 json-lint:
   stage: syntax
-  image: vpgrp/puppet
+  image: vpgrp/linter:json
   script:
     - metadata-json-lint metadata.json
 
 puppet-lint:
   stage: syntax
-  image: vpgrp/puppet
+  image: vpgrp/linter:puppet
   script:
     - puppet-lint --fail-on-warnings .
 
 rubocop:
   stage: syntax
-  image: vpgrp/puppet
+  image: vpgrp/linter:ruby
   script:
     - rubocop .
 
 yaml-lint:
   stage: syntax
-  image: vpgrp/puppet
+  image: vpgrp/linter:yaml
   script:
     - yaml-lint .gitlab-ci.yml
     - yaml-lint .kitchen.yml
