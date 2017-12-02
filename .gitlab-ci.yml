@@ -39,6 +39,12 @@ json-lint:
   script:
     - metadata-json-lint metadata.json
 
+markdown-lint:
+  stage: syntax
+  image: vpgrp/linter:markdown
+  script:
+    - markdown-lint --rules '~MD029' README.md
+
 puppet-lint:
   stage: syntax
   image: vpgrp/linter:puppet
