@@ -6,6 +6,7 @@ class influxdb (
   $package                = true,
   $service                = true,
   $enable                 = true,
+  $manage_repos           = true,
   $apt_location           = $influxdb::params::apt_location,
   $apt_release            = $influxdb::params::apt_release,
   $apt_repos              = $influxdb::params::apt_repos,
@@ -39,18 +40,25 @@ class influxdb (
     default : { fail('service must be true, false or running') }
   }
 
-  class { 'influxdb::repos':
-    apt_location          => $apt_location,
-    apt_release           => $apt_release,
-    apt_repos             => $apt_repos,
-    apt_key               => $apt_key,
-    influxdb_package_name => $influxdb_package_name,
-    influxdb_service_name => $influxdb_service_name,
-  }
+  if ($manage_repos == true) {
+    class { 'influxdb::repos':
+      apt_location          => $apt_location,
+      apt_release           => $apt_release,
+      apt_repos             => $apt_repos,
+      apt_key               => $apt_key,
+      influxdb_package_name => $influxdb_package_name,
+      influxdb_service_name => $influxdb_service_name,
+    }
 
-  package { $influxdb_package_name:
-    ensure  => $ensure_package,
-    require => Class['influxdb::repos'],
+    package { $influxdb_package_name:
+      ensure  => $ensure_package,
+      require => Class['influxdb::repos'],
+    }
+  }
+  else {
+    package { $influxdb_package_name:
+      ensure  => $ensure_package,
+    }
   }
 
   service { $influxdb_service_name:
