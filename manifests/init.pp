@@ -3,28 +3,30 @@
 # Puppet module to install, deploy and configure influxdb.
 #
 class influxdb (
-  $package                = true,
-  $service                = true,
-  $enable                 = true,
-  $manage_repos           = true,
-  $apt_location           = $influxdb::params::apt_location,
-  $apt_release            = $influxdb::params::apt_release,
-  $apt_repos              = $influxdb::params::apt_repos,
-  $apt_key                = $influxdb::params::apt_key,
-  $influxdb_package_name  = $influxdb::params::influxdb_package_name,
-  $influxdb_service_name  = $influxdb::params::influxdb_service_name,
+  $package                 = true,
+  $service                 = true,
+  $enable                  = true,
+  $manage_repos            = true,
+  $apt_location            = $influxdb::params::apt_location,
+  $apt_release             = $influxdb::params::apt_release,
+  $apt_repos               = $influxdb::params::apt_repos,
+  $apt_key                 = $influxdb::params::apt_key,
+  $influxdb_package_name   = $influxdb::params::influxdb_package_name,
+  $influxdb_service_name   = $influxdb::params::influxdb_service_name,
   # daemon settings
-  $hostname               = $::fqdn,
-  $libdir                 = $influxdb::params::libdir,
-  $admin_enable           = $influxdb::params::admin_enable,
-  $admin_bind_address     = $influxdb::params::admin_bind_address,
-  $http_enable            = $influxdb::params::http_enable,
-  $http_bind_address      = $influxdb::params::http_bind_address,
-  $http_auth_enabled      = $influxdb::params::http_auth_enabled,
-  $http_realm             = $influxdb::params::http_realm,
-  $http_log_enabled       = $influxdb::params::http_log_enabled,
-  $https_enable           = $influxdb::params::https_enable,
-  $http_bind_socket       = $influxdb::params::http_bind_socket
+  $hostname                = $::fqdn,
+  $libdir                  = $influxdb::params::libdir,
+  $admin_enable            = $influxdb::params::admin_enable,
+  $admin_bind_address      = $influxdb::params::admin_bind_address,
+  $http_enable             = $influxdb::params::http_enable,
+  $http_bind_address       = $influxdb::params::http_bind_address,
+  $http_auth_enabled       = $influxdb::params::http_auth_enabled,
+  $http_realm              = $influxdb::params::http_realm,
+  $http_log_enabled        = $influxdb::params::http_log_enabled,
+  $https_enable            = $influxdb::params::https_enable,
+  $http_bind_socket        = $influxdb::params::http_bind_socket,
+  $max_series_per_database = $influxdb::params::max_series_per_database
+
 ) inherits influxdb::params {
   case $package {
     true    : { $ensure_package = 'present' }

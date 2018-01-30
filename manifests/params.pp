@@ -1,18 +1,19 @@
 # == Class: influxdb::params
 #
 class influxdb::params {
-  $libdir                = '/var/lib/influxdb'
+  $libdir                  = '/var/lib/influxdb'
 
-  $admin_enable          = false
-  $admin_bind_address    = ':8083'
+  $admin_enable            = false
+  $admin_bind_address      = ':8083'
 
-  $http_enable           = true
-  $http_bind_address     = ':8086'
-  $http_auth_enabled     = false
-  $http_realm            = 'InfluxDB'
-  $http_log_enabled      = true
-  $https_enable          = false
-  $http_bind_socket      = '/var/run/influxdb.sock'
+  $http_enable             = true
+  $http_bind_address       = ':8086'
+  $http_auth_enabled       = false
+  $http_realm              = 'InfluxDB'
+  $http_log_enabled        = true
+  $https_enable            = false
+  $http_bind_socket        = '/var/run/influxdb.sock'
+  $max_series_per_database = '1000000'
 
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {

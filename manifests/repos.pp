@@ -12,17 +12,35 @@ class influxdb::repos (
 ) inherits influxdb::params {
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {
-      if !defined(Class['apt']) {
-        include apt
-      }
+      case $::lsbdistcodename {
+        /(buster|n\/a)/   : {
+          if !defined(Class['apt']) {
+            include apt
+          }
 
-      apt::source { 'influxdb':
-        ensure      => present,
-        location    => $apt_location,
-        release     => $apt_release,
-        repos       => $apt_repos,
-        key         => $apt_key,
-        include_src => false,
+          apt::source { 'influxdb':
+            ensure      => present,
+            location    => $apt_location,
+            release     => 'jessie',
+            repos       => 'stable',
+            key         => $apt_key,
+            include_src => false,
+          }
+        }
+        default : {
+          if !defined(Class['apt']) {
+            include apt
+          }
+
+          apt::source { 'influxdb':
+            ensure      => present,
+            location    => $apt_location,
+            release     => $apt_release,
+            repos       => $apt_repos,
+            key         => $apt_key,
+            include_src => false,
+          }
+        }
       }
     }
     /(?i:centos|fedora|redhat)/: {
