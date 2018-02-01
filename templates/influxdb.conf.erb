@@ -233,10 +233,10 @@ hostname = "<%= @hostname %>"
   https-enabled = <%= @https_enable %>
 
   # The SSL certificate to use when HTTPS is enabled.
-  # https-certificate = "/etc/ssl/influxdb.pem"
+  https-certificate = "/etc/ssl/certs/<%= @domain_name %>.pem"
 
   # Use a separate private key location.
-  # https-private-key = ""
+  https-private-key = "/etc/ssl/private/<%= @domain_name %>.key"
 
   # The JWT auth shared secret to validate requests using JSON web tokens.
   # shared-sercret = ""

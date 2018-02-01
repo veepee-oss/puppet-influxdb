@@ -18,6 +18,7 @@ class influxdb (
   $libdir                  = $influxdb::params::libdir,
   $admin_enable            = $influxdb::params::admin_enable,
   $admin_bind_address      = $influxdb::params::admin_bind_address,
+  $domain_name             = $influxdb::params::domain_name,
   $http_enable             = $influxdb::params::http_enable,
   $http_bind_address       = $influxdb::params::http_bind_address,
   $http_auth_enabled       = $influxdb::params::http_auth_enabled,
