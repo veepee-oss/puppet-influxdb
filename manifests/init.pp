@@ -26,7 +26,8 @@ class influxdb (
   $http_log_enabled        = $influxdb::params::http_log_enabled,
   $https_enable            = $influxdb::params::https_enable,
   $http_bind_socket        = $influxdb::params::http_bind_socket,
-  $max_series_per_database = $influxdb::params::max_series_per_database
+  $max_series_per_database = $influxdb::params::max_series_per_database,
+  $max_values_per_tag      = $influxdb::params::max_values_per_tag
 
 ) inherits influxdb::params {
   case $package {

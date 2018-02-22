@@ -14,6 +14,7 @@ class influxdb::params {
   $https_enable            = false
   $http_bind_socket        = '/var/run/influxdb.sock'
   $max_series_per_database = '1000000'
+  $max_values_per_tag      = '100000'
 
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {
