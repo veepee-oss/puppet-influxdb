@@ -6,7 +6,7 @@ class influxdb (
   $package                 = true,
   $service                 = true,
   $enable                  = true,
-  $manage_repos            = true,
+  $manage_repo             = true,
   $apt_location            = $influxdb::params::apt_location,
   $apt_release             = $influxdb::params::apt_release,
   $apt_repos               = $influxdb::params::apt_repos,
@@ -46,7 +46,7 @@ class influxdb (
     default : { fail('service must be true, false or running') }
   }
 
-  if ($manage_repos == true) {
+  if ($manage_repo == true) {
     class { 'influxdb::repos':
       apt_location          => $apt_location,
       apt_release           => $apt_release,
