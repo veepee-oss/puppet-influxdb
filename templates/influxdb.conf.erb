@@ -403,8 +403,8 @@ hostname = "<%= @hostname %>"
 ###
 
 [[udp]]
-  # enabled = false
-  # bind-address = ":8089"
+  enabled = <%= @udp_enable %>
+  bind-address = <%= @udp_bind_address %>
   # database = "udp"
   # retention-policy = ""
 

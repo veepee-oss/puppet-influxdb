@@ -15,6 +15,8 @@ class influxdb::params {
   $http_bind_socket        = '/var/run/influxdb.sock'
   $max_series_per_database = '1000000'
   $max_values_per_tag      = '100000'
+  $udp_enable              = true
+  $udp_bind_address        = ':8089'
 
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {
