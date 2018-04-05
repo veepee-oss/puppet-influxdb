@@ -4,10 +4,10 @@ class influxdb::params {
   $libdir                  = '/var/lib/influxdb'
 
   $admin_enable            = false
-  $admin_bind_address      = ':8083'
+  $admin_bind_address      = '0.0.0.0:8083'
   $domain_name             = undef
   $http_enable             = true
-  $http_bind_address       = ':8086'
+  $http_bind_address       = '0.0.0.0:8086'
   $http_auth_enabled       = false
   $http_realm              = 'InfluxDB'
   $http_log_enabled        = true
@@ -15,8 +15,8 @@ class influxdb::params {
   $http_bind_socket        = '/var/run/influxdb.sock'
   $max_series_per_database = '1000000'
   $max_values_per_tag      = '100000'
-  $udp_enable              = true
-  $udp_bind_address        = ':8089'
+  $udp_enable              = false
+  $udp_bind_address        = '0.0.0.0:8089'
 
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {
