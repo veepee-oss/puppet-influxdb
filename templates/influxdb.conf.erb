@@ -31,10 +31,10 @@ hostname = "<%= @hostname %>"
   dir = "<%= @libdir %>/meta"
 
   # Automatically create a  default retention policy when  creating a database.
-  # retention-autocreate = true
+  retention-autocreate = true
 
   # If log messages are printed for the meta service
-  # logging-enabled = true
+  logging-enabled = false
 
 ###
 ### [data]
@@ -227,11 +227,11 @@ hostname = "<%= @hostname %>"
   log-enabled = <%= @http_log_enabled %>
 
   # Determines whether detailed write logging is enabled.
-  # write-tracing = false
+  write-tracing = false
 
   # Determines whether  the pprof endpoint  is enabled.  This endpoint  is used
   # for troubleshooting and monitoring.
-  # pprof-enabled = true
+  pprof-enabled = true
 
   # Determines whether HTTPS is enabled.
   https-enabled = <%= @https_enable %>
