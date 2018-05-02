@@ -15,7 +15,7 @@ define influxdb::user (
       command =>
         "${cmd} 'REVOKE ${privilege} ON \"${db_name}\" TO \"${db_user}\"'",
       onlyif  =>
-        "${cmd} 'SHOW GRANTS FOR \"db_user\"' | grep ${privilege}"
+        "${cmd} 'SHOW GRANTS FOR \"${db_user}\"' | grep ${privilege}"
     }
     ->  exec { 'drop_user':
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
@@ -34,7 +34,7 @@ define influxdb::user (
       command =>
         "${cmd} 'GRANT ${privilege} ON \"${db_name}\" TO \"${db_user}\"'",
       unless  =>
-        "${cmd} 'SHOW GRANTS FOR \"db_user\"' | grep ${privilege}"
+        "${cmd} 'SHOW GRANTS FOR \"${db_user}\"' | grep ${privilege}"
     }
   }
 }
