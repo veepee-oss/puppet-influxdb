@@ -11,7 +11,7 @@ define influxdb::user (
     exec { "drop_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "${cmd} 'DROP USER \"${db_user}\"'",
-      onlyif  => "${cmd} 'SHOW USERS' | grep ${db_user}"
+      onlyif  => "${cmd} 'SHOW USERS' | tail -n+3 | grep ${db_user}"
     }
   } elsif ($ensure == 'present') {
     $arg_p = "WITH PASSWORD '${passwd}'"
@@ -23,7 +23,7 @@ define influxdb::user (
     exec { "create_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "${cmd} \"CREATE USER \\\"${db_user}\\\" ${arg_p} ${arg_a}\"",
-      unless  => "${cmd} 'SHOW USERS' | grep ${db_user}"
+      unless  => "${cmd} 'SHOW USERS' | tail -n+3 | grep ${db_user}"
     }
   }
 }
