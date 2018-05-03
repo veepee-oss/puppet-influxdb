@@ -39,7 +39,5 @@ class influxdb::params {
       is not supported on ${::operatingsystem}")
     }
   }
-
-  $execute          = 'influx -execute'
 }
 # EOF

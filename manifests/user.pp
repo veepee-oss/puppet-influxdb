@@ -5,8 +5,8 @@ define influxdb::user (
   $db_user                          = $title,
   $passwd                           = undef,
   $is_admin                         = false,
-  $cmd                              = $influxdb::params::execute
-) inherits influxdb::params {
+  $cmd                              = 'influx -execute'
+) {
   if ($ensure == 'absent') {
     exec { 'drop_user':
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',

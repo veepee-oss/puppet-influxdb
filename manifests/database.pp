@@ -3,8 +3,8 @@
 define influxdb::database (
   Enum['absent', 'present'] $ensure  = present,
   $db_name                           = $title,
-  $cmd                              = $influxdb::params::execute
-) inherits influxdb::params {
+  $cmd                               = 'influx -execute'
+) {
   if ($ensure == 'absent') {
     exec { 'drop_database':
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',

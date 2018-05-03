@@ -5,8 +5,8 @@ define influxdb::privilege (
   $db_user                                = undef,
   $db_name                                = undef,
   Enum['ALL', 'READ', 'WRITE'] $privilege = 'ALL',
-  $cmd                                    = $influxdb::params::execute
-) inherits influxdb::params {
+  $cmd                                    = 'influx -execute'
+) {
   $matches = "grep ${db_name} | grep ${privilege}"
   if ($ensure == 'absent') {
     exec { 'revoke_user':
