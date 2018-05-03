@@ -14,13 +14,15 @@ define influxdb::user (
       onlyif  => "${cmd} 'SHOW USERS' | grep ${db_user}"
     }
   } elsif ($ensure == 'present') {
-    $args = "WITH PASSWORD '${passwd}'"
+    $arg_p = "WITH PASSWORD '${passwd}'"
     if $is_admin {
-      $args = "${args} WITH ALL PRIVILEGES"
+      $arg_a = 'WITH ALL PRIVILEGES'
+    } else {
+      $arg_a = ''
     }
     exec { "create_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command => "${cmd} \"CREATE USER \\\"${db_user}\\\" ${args}\"",
+      command => "${cmd} \"CREATE USER \\\"${db_user}\\\" ${arg_p} ${arg_a}\"",
       unless  => "${cmd} 'SHOW USERS' | grep ${db_user}"
     }
   }
