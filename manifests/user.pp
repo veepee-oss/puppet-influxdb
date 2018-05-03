@@ -8,7 +8,7 @@ define influxdb::user (
   $cmd                              = 'influx -execute'
 ) {
   if ($ensure == 'absent') {
-    exec { 'drop_user':
+    exec { "drop_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "${cmd} 'DROP USER \"${db_user}\"'",
       onlyif  => "${cmd} 'SHOW USERS' | grep ${db_user}"
@@ -18,7 +18,7 @@ define influxdb::user (
     if $is_admin {
       $args = "${args} WITH ALL PRIVILEGES"
     }
-    exec { 'create_user':
+    exec { "create_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "${cmd} \"CREATE USER \\\"${db_user}\\\" ${args}\"",
       unless  => "${cmd} 'SHOW USERS' | grep ${db_user}"

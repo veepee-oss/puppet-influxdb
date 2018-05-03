@@ -9,14 +9,14 @@ define influxdb::privilege (
 ) {
   $matches = "grep ${db_name} | grep ${privilege}"
   if ($ensure == 'absent') {
-    exec { 'revoke_user':
+    exec { "revoke_${privilege}_on_${db_name}_to_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command =>
         "${cmd} 'REVOKE ${privilege} ON \"${db_name}\" TO \"${db_user}\"'",
       onlyif  => "${cmd} 'SHOW GRANTS FOR \"${db_user}\"' | ${matches}"
     }
   } elsif ($ensure == 'present') {
-    exec { 'grant_user':
+    exec { "grant_${privilege}_on_${db_name}_to_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command =>
         "${cmd} 'GRANT ${privilege} ON \"${db_name}\" TO \"${db_user}\"'",
