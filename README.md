@@ -1,4 +1,6 @@
-# puppet-influxdb ![License][license-img]
+# puppet-influxdb
+
+[![License][license-img]][license-href]
 
 1. [Overview](#overview)
 2. [Description](#description)
@@ -18,11 +20,11 @@ by  configuring  InfluxDB   to  keep  data  for  a  defined   length  of  time,
 automatically expiring &  deleting any unwanted data from  the system. InfluxDB
 also offers a SQL-like query language for interacting with data.
 
-[influxdata.com](https://www.influxdata.com/products/open-source/#influxdb)
+[influxdata.com][overview-href]
 
 ## Description
 
-Puppet module to install, deploy and configure influxdb.
+Puppet module to install, deploy and configure InfluxDB.
 
 ## Setup
 
@@ -49,7 +51,8 @@ So far, this is compatible with Debian, RedHat, and other derivatives.
 
 ## Development
 
-Please read carefully CONTRIBUTING.md before making a merge request.
+Please read carefully [CONTRIBUTING.md][contribute-href]  before making a merge
+request.
 
 ## Miscellaneous
 
@@ -64,3 +67,6 @@ Please read carefully CONTRIBUTING.md before making a merge request.
 ```
 
 [license-img]: https://img.shields.io/badge/license-Apache-blue.svg
+[license-href]: LICENSE
+[overview-href]: https://www.influxdata.com/time-series-platform/influxdb/
+[contribute-href]: CONTRIBUTING.md

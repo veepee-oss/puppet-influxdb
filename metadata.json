@@ -1,8 +1,8 @@
 {
   "name": "vpgrp-influxdb",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "vpgrp",
-  "summary": "Puppet module to install, deploy and configure influxdb.",
+  "summary": "Puppet module to install, deploy and configure InfluxDB.",
   "license": "Apache-2.0",
   "source": "https://github.com/vente-privee/puppet-influxdb",
   "project_page": "https://github.com/vente-privee/puppet-influxdb",
@@ -10,24 +10,24 @@
   "dependencies": [
     {
       "name": "puppetlabs/apt",
-      "version_requirement": ">= 1.5.0 < 6.0.0"
+      "version_requirement": ">= 1.5.0 <= 7.0.0"
     }
   ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": [ "7", "8", "9" ]
+      "operatingsystemrelease": [ "7", "8", "9", "10" ]
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [ "12.04", "14.04", "16.04" ]
+      "operatingsystemrelease": [ "12.04", "14.04", "16.04", "18.04" ]
     }
   ],
   "tags": [ "influxdb",  "supervision" ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 2.7.0 < 6.0.0"
+      "version_requirement": ">= 4.0.0 <= 7.0.0"
     }
   ]
 }
