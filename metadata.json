@@ -1,12 +1,12 @@
 {
   "name": "vpgrp-influxdb",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "author": "vpgrp",
   "summary": "Puppet module to install, deploy and configure influxdb.",
   "license": "Apache-2.0",
-  "source": "https://git.vpgrp.io/puppet/puppet-influxdb",
-  "project_page": "https://git.vpgrp.io/puppet/puppet-influxdb",
-  "issues_url": "https://git.vpgrp.io/puppet/puppet-influxdb/issues",
+  "source": "https://github.com/vente-privee/puppet-influxdb",
+  "project_page": "https://github.com/vente-privee/puppet-influxdb",
+  "issues_url": "https://github.com/vente-privee/puppet-influxdb/issues",
   "dependencies": [
     {
       "name": "puppetlabs/apt",
