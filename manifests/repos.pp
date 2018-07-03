@@ -19,12 +19,11 @@ class influxdb::repos (
           }
 
           apt::source { 'influxdb':
-            ensure      => present,
-            location    => $apt_location,
-            release     => 'jessie',
-            repos       => 'stable',
-            key         => $apt_key,
-            include_src => false,
+            ensure   => present,
+            location => $apt_location,
+            release  => 'jessie',
+            repos    => 'stable',
+            key      => $apt_key,
           }
         }
         default : {
@@ -33,12 +32,11 @@ class influxdb::repos (
           }
 
           apt::source { 'influxdb':
-            ensure      => present,
-            location    => $apt_location,
-            release     => $apt_release,
-            repos       => $apt_repos,
-            key         => $apt_key,
-            include_src => false,
+            ensure   => present,
+            location => $apt_location,
+            release  => $apt_release,
+            repos    => $apt_repos,
+            key      => $apt_key,
           }
         }
       }
