@@ -151,11 +151,11 @@ debian-9:
 #   script:
 #     - kitchen test --destroy=always --color ubuntu-ubuntu-14-04
 
-ubuntu-16.04:
-  stage: test-ubuntu
-  image: vpgrp/kitchen
-  script:
-    - kitchen test --destroy=always --color ubuntu-ubuntu-16-04
+# ubuntu-16.04:
+#   stage: test-ubuntu
+#   image: vpgrp/kitchen
+#   script:
+#     - kitchen test --destroy=always --color ubuntu-ubuntu-16-04
 
 # create module
 create-module:
