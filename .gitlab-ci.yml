@@ -15,15 +15,15 @@ git-history:
   stage: commit
   script:
     - >
-      bash <(curl -s
-      https://gitlab.com/yue-script/checks/raw/master/check_git_history.sh)
+      bash <(curl --fail --location --silent --show-error
+      https://git.io/vxIxF)
 
 lines-length:
   stage: commit
   script:
     - >
-      bash <(curl -s
-      https://gitlab.com/yue-script/checks/raw/master/check_lines_length.sh)
+      bash <(curl --fail --location --silent --show-error
+      https://git.io/vxIxN)
       80 templates/* files/*
 
 # syntax
@@ -43,7 +43,7 @@ markdown-lint:
   stage: syntax
   image: vpgrp/linter:markdown
   script:
-    - markdown-lint --rules '~MD029' README.md
+    - markdown-lint README.md
 
 puppet-lint:
   stage: syntax
@@ -108,7 +108,6 @@ debian-8:
   script:
     - kitchen test --destroy=always --color debian-debian-8
     - kitchen test --destroy=always --color debian-debian-8-bpo
-  allow_failure: true
 
 debian-9:
   stage: test-debian
@@ -117,12 +116,12 @@ debian-9:
     - kitchen test --destroy=always --color debian-debian-9
     - kitchen test --destroy=always --color debian-debian-9-bpo
 
-debian-10:
-  stage: test-debian
-  image: vpgrp/kitchen
-  script:
-    - kitchen test --destroy=always --color debian-debian-10
-    - kitchen test --destroy=always --color debian-debian-10-bpo
+# debian-10:
+#   stage: test-debian
+#   image: vpgrp/kitchen
+#   script:
+#     - kitchen test --destroy=always --color debian-debian-10
+#     - kitchen test --destroy=always --color debian-debian-10-bpo
 
 # Serverspec issue with Devuan 1
 # devuan-1:
