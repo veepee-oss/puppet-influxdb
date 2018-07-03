@@ -39,10 +39,7 @@ puppet module install vpgrp-influxdb
 ## Usage
 
 ```puppet
-class { 'influxdb':
-  package => true,
-  service => true,
-}
+class { 'influxdb': }
 ```
 
 ## Limitations
