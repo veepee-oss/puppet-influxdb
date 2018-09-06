@@ -451,4 +451,23 @@ hostname = "<%= @hostname %>"
   # interval for how  often continuous queries will be checked  if they need to
   # run
   run-interval = "1s"
+
+###
+### [logging]
+###
+### Controls how the logger emits logs to the output.
+###
+
+[logging]
+  # Determines which log encoder to use for logs. Available options are auto,
+  # logfmt, and json.
+  format = "<%= @logging_format %>"
+
+  # Sets the log level to be emitted. Valid logging level values are error, warn,
+  # info(default), and debug
+  level = "<%= @logging_level %>"
+
+  # Suppresses the logo output that is printed when the program is started
+  # suppress-logo = false
+
 # EOF

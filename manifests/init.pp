@@ -26,10 +26,12 @@ class influxdb (
   $http_log_enabled        = $influxdb::params::http_log_enabled,
   $https_enable            = $influxdb::params::https_enable,
   $http_bind_socket        = $influxdb::params::http_bind_socket,
-  $udp_enable              = $influxdb::params::udp_enable,
-  $udp_bind_address        = $influxdb::params::udp_bind_address,
+  $logging_format          = $influxdb::params::loggin_format,
+  $logging_level           = $influxdb::params::loggin_level,
   $max_series_per_database = $influxdb::params::max_series_per_database,
-  $max_values_per_tag      = $influxdb::params::max_values_per_tag
+  $max_values_per_tag      = $influxdb::params::max_values_per_tag,
+  $udp_enable              = $influxdb::params::udp_enable,
+  $udp_bind_address        = $influxdb::params::udp_bind_address
 
 ) inherits influxdb::params {
   case $package {

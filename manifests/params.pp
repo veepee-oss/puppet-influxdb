@@ -13,6 +13,8 @@ class influxdb::params {
   $http_log_enabled        = true
   $https_enable            = false
   $http_bind_socket        = '/var/run/influxdb.sock'
+  $logging_format          = 'auto'
+  $logging_level           = 'info'
   $max_series_per_database = '1000000'
   $max_values_per_tag      = '100000'
   $udp_enable              = false
