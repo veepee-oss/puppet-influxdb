@@ -102,11 +102,11 @@ yaml-lint:
 #     - kitchen test --destroy=always --color debian-debian-7
 #     - kitchen test --destroy=always --color debian-debian-7-bpo
 
-debian-8:
-  stage: test-debian
-  image: vpgrp/kitchen
-  script:
-    - kitchen test --destroy=always --color debian-debian-8
+#debian-8:
+#  stage: test-debian
+#  image: vpgrp/kitchen
+#  script:
+#    - kitchen test --destroy=always --color debian-debian-8
 
 debian-9:
   stage: test-debian
