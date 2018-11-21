@@ -39,7 +39,7 @@ define influxdb::user (
     exec { "drop_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "influx -execute 'DROP USER \"${db_user}\"'",
-      onlyif  => "influx -execute 'SHOW USERS' | tail -n+3 | grep -x ${db_user}"
+      onlyif  => "influx -execute 'SHOW USERS' | tail -n+3 |grep -x ${db_user}"
     }
   } elsif ($ensure == 'present') and ($http_auth_enabled == false) {
     $arg_p = "WITH PASSWORD '${passwd}'"
