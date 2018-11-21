@@ -1,6 +1,6 @@
 {
   "name": "vpgrp-influxdb",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "author": "vpgrp",
   "summary": "Puppet module to install, deploy and configure InfluxDB.",
   "license": "Apache-2.0",
