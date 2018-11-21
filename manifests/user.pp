@@ -17,7 +17,7 @@ define influxdb::user (
         -execute 'DROP USER \"${db_user}\"'",
       onlyif  =>
         "influx -username ${admin_username} -password '${admin_password}' \
-        -execute 'SHOW USERS' | tail -n+3 | grep ${db_user}"
+        -execute 'SHOW USERS' | tail -n+3 | grep -x ${db_user}"
     }
   } elsif ($ensure == 'present') and ($http_auth_enabled == true) {
     $arg_p = "WITH PASSWORD '${passwd}'"
@@ -33,13 +33,13 @@ define influxdb::user (
         -execute \"CREATE USER \\\"${db_user}\\\" ${arg_p} ${arg_a}\"",
       unless  =>
         "influx -username ${admin_username} -password '${admin_password}' \
-        -execute 'SHOW USERS' | tail -n+3 | grep ${db_user}"
+        -execute 'SHOW USERS' | tail -n+3 | grep -x ${db_user}"
     }
   } elsif ($ensure == 'absent') and ($http_auth_enabled == false) {
     exec { "drop_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "influx -execute 'DROP USER \"${db_user}\"'",
-      onlyif  => "influx -execute 'SHOW USERS' | tail -n+3 | grep ${db_user}"
+      onlyif  => "influx -execute 'SHOW USERS' | tail -n+3 | grep -x ${db_user}"
     }
   } elsif ($ensure == 'present') and ($http_auth_enabled == false) {
     $arg_p = "WITH PASSWORD '${passwd}'"
@@ -53,7 +53,7 @@ define influxdb::user (
       command =>
         "influx -execute \"CREATE USER \\\"${db_user}\\\" ${arg_p} ${arg_a}\"",
       unless  =>
-        "influx -execute 'SHOW USERS' | tail -n+3 | grep ${db_user}"
+        "influx -execute 'SHOW USERS' | tail -n+3 | grep -x ${db_user}"
     }
   }
 }
