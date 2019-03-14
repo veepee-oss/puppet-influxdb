@@ -39,74 +39,30 @@ platforms:
     driver_config:
       image: vpgrp/puppet:centos-7
       command: /sbin/init
-  # Debian 5
-  - name: debian-5
-    driver_config:
-      image: vpgrp/puppet:debian-5
-  - name: debian-5-bpo
-    driver_config:
-      image: vpgrp/puppet:debian-5.bpo
-  # Debian 6
-  - name: debian-6
-    driver_config:
-      image: vpgrp/puppet:debian-6
-  - name: debian-6-bpo
-    driver_config:
-      image: vpgrp/puppet:debian-6.bpo
-  # Debian 7
-  - name: debian-7
-    driver_config:
-      image: vpgrp/puppet:debian-7
-  - name: debian-7-bpo
-    driver_config:
-      image: vpgrp/puppet:debian-7.bpo
   # Debian 8
   - name: debian-8
     driver_config:
       image: vpgrp/puppet:debian-8
-      # command: /bin/systemd
-  - name: debian-8-bpo
-    driver_config:
-      image: vpgrp/puppet:debian-8.bpo
       # command: /bin/systemd
   # Debian 9
   - name: debian-9
     driver_config:
       image: vpgrp/puppet:debian-9
       command: /bin/systemd
-  - name: debian-9-bpo
-    driver_config:
-      image: vpgrp/puppet:debian-9.bpo
-      command: /bin/systemd
   # Debian 10
   - name: debian-10
     driver_config:
       image: vpgrp/puppet:debian-10
       command: /bin/systemd
-  - name: debian-10-bpo
-    driver_config:
-      image: vpgrp/puppet:debian-10.bpo
-      command: /bin/systemd
-  # Devuan 1.0
-  - name: devuan-1
-    driver_config:
-      image: vpgrp/puppet:devuan-1
-  # Ubuntu 10.04
-  - name: ubuntu-10-04
-    driver_config:
-      image: vpgrp/puppet:ubuntu-10.04
-  # Ubuntu 12.04
-  - name: ubuntu-12-04
-    driver_config:
-      image: vpgrp/puppet:ubuntu-12.04
-  # Ubuntu 14.04
-  - name: ubuntu-14-04
-    driver_config:
-      image: vpgrp/puppet:ubuntu-14.04
   # Ubuntu 16.04
   - name: ubuntu-16-04
     driver_config:
       image: vpgrp/puppet:ubuntu-16.04
+      command: /bin/systemd
+  # Ubuntu 16.04
+  - name: ubuntu-18-04
+    driver_config:
+      image: vpgrp/puppet:ubuntu-18.04
       command: /bin/systemd
 
 suites:
@@ -122,31 +78,15 @@ suites:
     provisioner:
       manifest: debian/init.pp
     includes:
-      - debian-5
-      - debian-5-bpo
-      - debian-6
-      - debian-6-bpo
-      - debian-7
-      - debian-7-bpo
       - debian-8
-      - debian-8-bpo
       - debian-9
-      - debian-9-bpo
       - debian-10
-      - debian-10-bpo
-  # Devuan
-  - name: devuan
-    provisioner:
-      manifest: devuan/init.pp
-    includes:
-      - devuan-1
   # Ubuntu
   - name: ubuntu
     provisioner:
       manifest: ubuntu/init.pp
     includes:
-      - ubuntu-10-04
-      - ubuntu-12-04
       - ubuntu-14-04
       - ubuntu-16-04
+      - ubuntu-18-04
 # EOF
