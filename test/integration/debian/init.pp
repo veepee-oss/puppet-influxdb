@@ -5,6 +5,10 @@ if ($::lsbdistid == 'Debian') {
     package      => true,
     service      => true
   }
+
+  influxdb::database { 'test':
+    ensure  => present
+  }
 }
 
 if ($::lsbdistid == 'Ubuntu') {
@@ -12,6 +16,10 @@ if ($::lsbdistid == 'Ubuntu') {
     apt_location => 'http://mirror.vpgrp.io/ubuntu-influxdb',
     package      => true,
     service      => true
+  }
+
+  influxdb::database { 'test':
+    ensure  => present
   }
 }
 # EOF

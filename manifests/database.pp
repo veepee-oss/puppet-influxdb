@@ -21,7 +21,8 @@ define influxdb::database (
         -execute 'DROP DATABASE ${db_name}'",
       onlyif  =>
         "${cmd} -username ${admin_username} -password '${admin_password}' \
-        -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}"
+        -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
+      require => Class['influxdb']
     }
   } elsif ($ensure == 'present') and ($http_auth_enabled == true) {
     exec { "create_database_${db_name}":
@@ -31,21 +32,24 @@ define influxdb::database (
         -execute 'CREATE DATABASE ${db_name}'",
       unless  =>
         "${cmd} -username ${admin_username} -password '${admin_password}' \
-        -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}"
+        -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
+      require => Class['influxdb']
     }
   } elsif ($ensure == 'present') and ($http_auth_enabled == false) {
     exec { "create_database_${db_name}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "${cmd} -execute 'CREATE DATABASE ${db_name}'",
       unless  =>
-        "${cmd} -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}"
+        "${cmd} -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
+      require => Class['influxdb']
     }
   } elsif ($ensure == 'absent') and ($http_auth_enabled == false) {
     exec { "drop_database_${db_name}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
       command => "${cmd} -execute 'DROP DATABASE ${db_name}'",
       onlyif  =>
-        "${cmd} -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}"
+        "${cmd} -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
+      require => Class['influxdb']
     }
   }
 }
