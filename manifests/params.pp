@@ -33,12 +33,13 @@ class influxdb::params {
 
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {
-      $apt_location          = 'https://repos.influxdata.com/debian'
-      $apt_release           = $::lsbdistcodename
-      $apt_repos             = 'stable'
-      $apt_key               = '05CE15085FC09D18E99EFB22684A14CF2582E0C5'
-      $influxdb_package_name = 'influxdb'
-      $influxdb_service_name = 'influxdb'
+      $apt_location              = 'https://repos.influxdata.com/debian'
+      $apt_release               = $::lsbdistcodename
+      $apt_repos                 = 'stable'
+      $apt_key                   = '05CE15085FC09D18E99EFB22684A14CF2582E0C5'
+      $influxdb_package_name     = 'influxdb'
+      $influxdb_service_name     = 'influxdb'
+      $influxdb_service_provider = 'systemd'
     }
     /(?i:centos|fedora|redhat)/: {
       $influxdb_package_name = 'influxdb'
@@ -46,6 +47,7 @@ class influxdb::params {
         '6' => 'influxdb',
         '7' => 'influxd'
       }
+      $influxdb_service_provider = 'systemd'
     }
     default                    : {
       fail("Module ${module_name} \

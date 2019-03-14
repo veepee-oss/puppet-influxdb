@@ -3,16 +3,17 @@
 # Puppet module to install, deploy and configure influxdb.
 #
 class influxdb (
-  $package                 = true,
-  $service                 = true,
-  $enable                  = true,
-  $manage_repo             = true,
-  $apt_location            = $influxdb::params::apt_location,
-  $apt_release             = $influxdb::params::apt_release,
-  $apt_repos               = $influxdb::params::apt_repos,
-  $apt_key                 = $influxdb::params::apt_key,
-  $influxdb_package_name   = $influxdb::params::influxdb_package_name,
-  $influxdb_service_name   = $influxdb::params::influxdb_service_name,
+  $package                   = true,
+  $service                   = true,
+  $enable                    = true,
+  $manage_repo               = true,
+  $apt_location              = $influxdb::params::apt_location,
+  $apt_release               = $influxdb::params::apt_release,
+  $apt_repos                 = $influxdb::params::apt_repos,
+  $apt_key                   = $influxdb::params::apt_key,
+  $influxdb_package_name     = $influxdb::params::influxdb_package_name,
+  $influxdb_service_name     = $influxdb::params::influxdb_service_name,
+  $influxdb_service_provider = $influxdb::params::influxdb_service_provider,
   # daemon settings
   $hostname                = $::fqdn,
   $libdir                  = $influxdb::params::libdir,
@@ -77,6 +78,7 @@ class influxdb (
     enable     => $enable,
     hasrestart => true,
     hasstatus  => true,
+    provider   => $influxdb_service_provider,
     require    => Package[$influxdb_package_name],
   }
 
