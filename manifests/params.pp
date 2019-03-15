@@ -47,7 +47,10 @@ class influxdb::params {
         '6' => 'influxdb',
         '7' => 'influxd'
       }
-      $influxdb_service_provider = 'systemd'
+      $influxdb_service_provider = $::operatingsystemmajrelease ? {
+        '6' => 'redhat',
+        '7' => 'systemd'
+      }
     }
     default                    : {
       fail("Module ${module_name} \

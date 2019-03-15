@@ -34,6 +34,7 @@ platforms:
   - name: centos-6
     driver_config:
       image: vpgrp/puppet:centos-6
+      command: /sbin/init
   # CentOS 7
   - name: centos-7
     driver_config:
