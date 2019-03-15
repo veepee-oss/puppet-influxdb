@@ -82,6 +82,17 @@ class influxdb (
     require    => Package[$influxdb_package_name],
   }
 
+  if $ensure_service == 'running' {
+      exec { 'wait_for_influxdb_to_listen':
+        command   => 'influx -execute quit',
+        unless    => 'influx -execute quit',
+        tries     => '3',
+        try_sleep => '10',
+        require   => Service[$influxdb_service_name],
+        path      => '/bin:/usr/bin',
+      }
+  }
+
   file { '/etc/influxdb/influxdb.conf':
     ensure  => $ensure_package,
     path    => '/etc/influxdb/influxdb.conf',
