@@ -43,7 +43,7 @@ platforms:
   - name: debian-8
     driver_config:
       image: vpgrp/puppet:debian-8
-      # command: /bin/systemd
+      command: /bin/systemd
   # Debian 9
   - name: debian-9
     driver_config:
