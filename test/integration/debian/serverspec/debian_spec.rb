@@ -28,7 +28,7 @@ end
 describe 'Databases creation' do
   describe command('influx -execute "SHOW DATABASES" | grep -x test') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /test/ }
+    its(:stdout) { should match(/^test$/) }
   end
 end
 # EOF
