@@ -39,7 +39,10 @@ class influxdb::params {
       $apt_key                   = '05CE15085FC09D18E99EFB22684A14CF2582E0C5'
       $influxdb_package_name     = 'influxdb'
       $influxdb_service_name     = 'influxdb'
-      $influxdb_service_provider = 'systemd'
+      $influxdb_service_provider = $::operatingsystemmajrelease ? {
+        '14.04' => 'debian',
+        default => 'systemd'
+      }
     }
     /(?i:centos|fedora|redhat)/: {
       $influxdb_package_name = 'influxdb'
