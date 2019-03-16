@@ -6,7 +6,6 @@ stages:
   - syntax
   - test-centos
   - test-debian
-  - test-devuan
   - test-ubuntu
   - module
 
@@ -66,48 +65,23 @@ yaml-lint:
     - yaml-lint .puppetforge.yml
 
 # puppet
-# centos-6:
-#   stage: test-centos
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color centos-centos-6
+centos-6:
+  stage: test-centos
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color centos-centos-6
 
-# centos-7:
-#   stage: test-centos
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color centos-centos-7
+centos-7:
+  stage: test-centos
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color centos-centos-7
 
-# Ruby 1.9 issue with Debian 5
-# debian-5:
-#   stage: test-debian
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color debian-debian-5
-#     - kitchen test --destroy=always --color debian-debian-5-bpo
-#   allow_failure: true
-
-# debian-6:
-#   stage: test-debian
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color debian-debian-6
-#     - kitchen test --destroy=always --color debian-debian-6-bpo
-#   allow_failure: true
-
-# debian-7:
-#   stage: test-debian
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color debian-debian-7
-#     - kitchen test --destroy=always --color debian-debian-7-bpo
-
-#debian-8:
-#  stage: test-debian
-#  image: vpgrp/kitchen
-#  script:
-#    - kitchen test --destroy=always --color debian-debian-8
-#    - kitchen test --destroy=always --color debian-debian-8-bpo
+debian-8:
+  stage: test-debian
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color debian-debian-8
 
 debian-9:
   stage: test-debian
@@ -115,46 +89,23 @@ debian-9:
   script:
     - kitchen test --destroy=always --color debian-debian-9
 
-# debian-10:
-#   stage: test-debian
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color debian-debian-10
-#     - kitchen test --destroy=always --color debian-debian-10-bpo
+debian-10:
+  stage: test-debian
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color debian-debian-10
 
-# Serverspec issue with Devuan 1
-# devuan-1:
-#   stage: test-devuan
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color devuan-devuan-1
-#   allow_failure: true
+ubuntu-14.04:
+  stage: test-ubuntu
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color ubuntu-ubuntu-14-04
 
-# Ruby 1.9 issue with Ubuntu 10.04
-# ubuntu-10.04:
-#   stage: test-ubuntu
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color ubuntu-ubuntu-10-04
-#   allow_failure: true
-
-# ubuntu-12.04:
-#   stage: test-ubuntu
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color ubuntu-ubuntu-12-04
-
-# ubuntu-14.04:
-#   stage: test-ubuntu
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color ubuntu-ubuntu-14-04
-
-# ubuntu-16.04:
-#   stage: test-ubuntu
-#   image: vpgrp/kitchen
-#   script:
-#     - kitchen test --destroy=always --color ubuntu-ubuntu-16-04
+ubuntu-16.04:
+  stage: test-ubuntu
+  image: vpgrp/kitchen
+  script:
+    - kitchen test --destroy=always --color ubuntu-ubuntu-16-04
 
 # create module
 create-module:

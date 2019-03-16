@@ -55,12 +55,16 @@ platforms:
     driver_config:
       image: vpgrp/puppet:debian-10
       command: /bin/systemd
+  # Ubuntu 14.04
+  - name: ubuntu-14-04
+    driver_config:
+      image: vpgrp/puppet:ubuntu-14.04
   # Ubuntu 16.04
   - name: ubuntu-16-04
     driver_config:
       image: vpgrp/puppet:ubuntu-16.04
       command: /bin/systemd
-  # Ubuntu 16.04
+  # Ubuntu 18.04
   - name: ubuntu-18-04
     driver_config:
       image: vpgrp/puppet:ubuntu-18.04
