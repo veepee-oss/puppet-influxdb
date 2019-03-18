@@ -68,42 +68,56 @@ yaml-lint:
 centos-6:
   stage: test-centos
   image: vpgrp/kitchen
+  before_script:
+    - docker pull vpgrp/puppet:centos-6
   script:
     - kitchen test --destroy=always --color centos-centos-6
 
 centos-7:
   stage: test-centos
   image: vpgrp/kitchen
+  before_script:
+    - docker pull vpgrp/puppet:centos-7
   script:
     - kitchen test --destroy=always --color centos-centos-7
 
 debian-8:
   stage: test-debian
   image: vpgrp/kitchen
+  before_script:
+    - docker pull vpgrp/puppet:debian-8
   script:
     - kitchen test --destroy=always --color debian-debian-8
 
 debian-9:
   stage: test-debian
   image: vpgrp/kitchen
+  before_script:
+    - docker pull vpgrp/puppet:debian-9
   script:
     - kitchen test --destroy=always --color debian-debian-9
 
 debian-10:
   stage: test-debian
   image: vpgrp/kitchen
+  before_script:
+    - docker pull vpgrp/puppet:debian-10
   script:
     - kitchen test --destroy=always --color debian-debian-10
 
 ubuntu-14.04:
   stage: test-ubuntu
   image: vpgrp/kitchen
+  before_script:
+    - docker pull vpgrp/puppet:ubuntu-14.04
   script:
     - kitchen test --destroy=always --color ubuntu-ubuntu-14-04
 
 ubuntu-16.04:
   stage: test-ubuntu
   image: vpgrp/kitchen
+  before_script:
+    - docker pull vpgrp/puppet:ubuntu-16.04
   script:
     - kitchen test --destroy=always --color ubuntu-ubuntu-16-04
 
