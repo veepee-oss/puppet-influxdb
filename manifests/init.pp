@@ -68,9 +68,15 @@ class influxdb (
       before                => Package[$influxdb_package_name],
     }
   }
-
-  package { $influxdb_package_name:
-    ensure => $ensure_package,
+  else {
+    package { $influxdb_package_name:
+      ensure  => $ensure_package
+    }
+    if ($::osfamily == 'debian') {
+      package { 'influxdb-client':
+        ensure  => $ensure_package
+      }
+    }
   }
 
   service { $influxdb_service_name:
