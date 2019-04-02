@@ -47,7 +47,7 @@ class influxdb (
     true    : { $ensure_package = 'present' }
     false   : { $ensure_package = 'purged' }
     latest  : { $ensure_package = 'latest' }
-    default : { fail('package must be true, false or lastest') }
+    default : { fail('package must be true, false or latest') }
   }
 
   case $service {
