@@ -65,17 +65,16 @@ class influxdb (
       apt_key               => $apt_key,
       influxdb_package_name => $influxdb_package_name,
       influxdb_service_name => $influxdb_service_name,
-      before                => Package[$influxdb_package_name],
+    }
+
+    package { $influxdb_package_name[0]:
+      ensure  => $ensure_package,
+      require => Class['influxdb::repos'],
     }
   }
   else {
     package { $influxdb_package_name:
       ensure  => $ensure_package
-    }
-    if ($::osfamily == 'debian') {
-      package { 'influxdb-client':
-        ensure  => $ensure_package
-      }
     }
   }
 
@@ -85,7 +84,7 @@ class influxdb (
     hasrestart => true,
     hasstatus  => true,
     provider   => $influxdb_service_provider,
-    require    => Package[$influxdb_package_name],
+    require    => Package[$influxdb_package_name[0]],
   }
 
   if $ensure_service == 'running' {
@@ -106,7 +105,7 @@ class influxdb (
     group   => 'root',
     mode    => '0644',
     content => template('influxdb/influxdb.conf.erb'),
-    require => Package[$influxdb_package_name],
+    require => Package[$influxdb_package_name[0]],
     notify  => Service[$influxdb_service_name],
   }
 }

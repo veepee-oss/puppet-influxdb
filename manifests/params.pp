@@ -37,7 +37,7 @@ class influxdb::params {
       $apt_release               = $::lsbdistcodename
       $apt_repos                 = 'stable'
       $apt_key                   = '05CE15085FC09D18E99EFB22684A14CF2582E0C5'
-      $influxdb_package_name     = 'influxdb'
+      $influxdb_package_name     = ['influxdb', 'influxdb-client']
       $influxdb_service_name     = 'influxdb'
       $influxdb_service_provider = $::operatingsystemmajrelease ? {
         '14.04' => 'debian',
@@ -45,7 +45,7 @@ class influxdb::params {
       }
     }
     /(?i:centos|fedora|redhat)/: {
-      $influxdb_package_name = 'influxdb'
+      $influxdb_package_name = ['influxdb']
       $influxdb_service_name = $::operatingsystemmajrelease ? {
         '6' => 'influxdb',
         '7' => 'influxd'
