@@ -33,7 +33,12 @@ class influxdb (
   $max_series_per_database = $influxdb::params::max_series_per_database,
   $max_values_per_tag      = $influxdb::params::max_values_per_tag,
   $udp_enable              = $influxdb::params::udp_enable,
-  $udp_bind_address        = $influxdb::params::udp_bind_address
+  $udp_bind_address        = $influxdb::params::udp_bind_address,
+
+  $graphite_enable         = $influxdb::params::graphite_enable,
+  $graphite_database       = $influxdb::params::graphite_database,
+  $graphite_listen         = $influxdb::params::graphite_listen,
+  $graphite_templates      = $influxdb::params::graphite_templates
 
 ) inherits influxdb::params {
   case $package {
