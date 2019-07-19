@@ -22,9 +22,9 @@ class influxdb::params {
   $udp_enable              = false
   $udp_bind_address        = '0.0.0.0:8089'
 
-  $graphite_enable         = false,
-  $graphite_database       = 'graphite',
-  $graphite_listen         = ':2003',
+  $graphite_enable         = false
+  $graphite_database       = 'graphite'
+  $graphite_listen         = ':2003'
   $graphite_templates      = [
     '*.app env.service.resource.measurement',
     'server', # default template
