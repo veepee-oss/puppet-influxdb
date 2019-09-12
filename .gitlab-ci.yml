@@ -2,85 +2,50 @@
 # https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
 
 stages:
-  - commit
-  - syntax
-  - test-centos
-  - test-debian
-  - test-ubuntu
-  - module
-
-# commit
-git-history:
-  stage: commit
-  script:
-    - >
-      bash <(curl --fail --location --silent --show-error
-      https://git.io/vxIxF)
-
-lines-length:
-  stage: commit
-  script:
-    - >
-      bash <(curl --fail --location --silent --show-error
-      https://git.io/vxIxN)
-      80 templates/* files/*
+  - linter
+  - test
+  - puppet
 
 # syntax
 erb-lint:
-  stage: syntax
+  stage: linter
   image: vpgrp/linter:puppet
   script:
     - rails-erb-lint check --path=templates
 
 json-lint:
-  stage: syntax
+  stage: linter
   image: vpgrp/linter:puppet
   script:
     - metadata-json-lint metadata.json
 
 markdown-lint:
-  stage: syntax
+  stage: linter
   image: vpgrp/linter:markdown
   script:
-    - markdown-lint README.md
+    - mdl README.md
 
 puppet-lint:
-  stage: syntax
+  stage: linter
   image: vpgrp/linter:puppet
   script:
     - puppet-lint --fail-on-warnings .
 
 rubocop:
-  stage: syntax
+  stage: linter
   image: vpgrp/linter:ruby
   script:
     - rubocop .
 
 yaml-lint:
-  stage: syntax
+  stage: linter
   image: vpgrp/linter:yaml
   script:
     - yaml-lint .gitlab-ci.yml
     - yaml-lint .kitchen.yml
     - yaml-lint .puppetforge.yml
 
-# puppet
-centos-6:
-  stage: test-centos
-  image: vpgrp/kitchen
-  before_script:
-    - docker pull vpgrp/puppet:centos-6
-  script:
-    - kitchen test --destroy=always --color centos-centos-6
-
-centos-7:
-  stage: test-centos
-  image: vpgrp/kitchen
-  before_script:
-    - docker pull vpgrp/puppet:centos-7
-  script:
-    - kitchen test --destroy=always --color centos-centos-7
-
+# test
 debian-8:
   stage: test-debian
   image: vpgrp/kitchen
@@ -105,31 +70,15 @@ debian-10:
   script:
     - kitchen test --destroy=always --color debian-debian-10
 
-ubuntu-14.04:
-  stage: test-ubuntu
-  image: vpgrp/kitchen
-  before_script:
-    - docker pull vpgrp/puppet:ubuntu-14.04
-  script:
-    - kitchen test --destroy=always --color ubuntu-ubuntu-14-04
-
-ubuntu-16.04:
-  stage: test-ubuntu
-  image: vpgrp/kitchen
-  before_script:
-    - docker pull vpgrp/puppet:ubuntu-16.04
-  script:
-    - kitchen test --destroy=always --color ubuntu-ubuntu-16-04
-
-# create module
+# puppet
 create-module:
-  stage: module
+  stage: puppet
   image: vpgrp/puppet
   script:
     - puppet module build
 
 publish-module:
-  stage: module
+  stage: puppet
   only:
     - tags
   image: vpgrp/puppet
