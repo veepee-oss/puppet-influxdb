@@ -47,7 +47,7 @@ yaml-lint:
 
 # test
 debian-8:
-  stage: test-debian
+  stage: test
   image: vpgrp/kitchen
   before_script:
     - docker pull vpgrp/puppet:debian-8
@@ -55,7 +55,7 @@ debian-8:
     - kitchen test --destroy=always --color debian-debian-8
 
 debian-9:
-  stage: test-debian
+  stage: test
   image: vpgrp/kitchen
   before_script:
     - docker pull vpgrp/puppet:debian-9
@@ -63,7 +63,7 @@ debian-9:
     - kitchen test --destroy=always --color debian-debian-9
 
 debian-10:
-  stage: test-debian
+  stage: test
   image: vpgrp/kitchen
   before_script:
     - docker pull vpgrp/puppet:debian-10
