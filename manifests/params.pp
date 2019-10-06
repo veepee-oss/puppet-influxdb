@@ -8,6 +8,7 @@ class influxdb::params {
   $admin_username          = 'admin'
   $admin_password          = undef
   $domain_name             = undef
+  $flux_enable             = false
   $http_enable             = true
   $http_bind_address       = '0.0.0.0:8086'
   $http_auth_enabled       = false
