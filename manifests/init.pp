@@ -63,17 +63,12 @@ class influxdb (
       apt_key               => $apt_key,
       influxdb_package_name => $influxdb_package_name,
       influxdb_service_name => $influxdb_service_name,
-    }
-
-    package { $influxdb_package_name:
-      ensure  => $ensure_package,
-      require => Class['influxdb::repos'],
+      before                => Package[$influxdb_package_name],
     }
   }
-  else {
-    package { $influxdb_package_name:
-      ensure  => $ensure_package,
-    }
+
+  package { $influxdb_package_name:
+    ensure => $ensure_package,
   }
 
   service { $influxdb_service_name:
