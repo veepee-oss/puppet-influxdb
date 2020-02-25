@@ -336,7 +336,16 @@ hostname = "<%= @hostname %>"
   ### optional  extra tags  following the  template.  Multiple  tags should  be
   ### separated by  commas and no spaces  similar to the line  protocol format.
   ### There can be only one default template.
-  templates = [ <%= @graphite_templates.map{ |template| "\"#{template}\"" }.join(',') %> ]
+  <% if @graphite_enable == true %>
+    templates = [ <%= @graphite_templates.map{ |template| "\"#{template}\"" }.join(',') %> ]
+  <% else %>
+    # templates = [
+    #   "*.app env.service.resource.measurement",
+    #   # Default template
+    #   "server.*",
+    # ]
+  <% end %>
+
 
 ###
 ### [collectd]
