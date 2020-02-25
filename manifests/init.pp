@@ -21,6 +21,7 @@ class influxdb (
   $admin_username          = $influxdb::params::admin_username,
   $admin_password          = $influxdb::params::admin_password,
   $domain_name             = $influxdb::params::domain_name,
+  $flux_enable             = $influxdb::params::flux_enable,
   $http_enable             = $influxdb::params::http_enable,
   $http_bind_address       = $influxdb::params::http_bind_address,
   $http_auth_enabled       = $influxdb::params::http_auth_enabled,
