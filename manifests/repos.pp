@@ -24,6 +24,7 @@ class influxdb::repos (
             release  => 'jessie',
             repos    => 'stable',
             key      => $apt_key,
+            notify   => Exec['apt_update']
           }
         }
         default : {
@@ -37,6 +38,7 @@ class influxdb::repos (
             release  => $apt_release,
             repos    => $apt_repos,
             key      => $apt_key,
+            notify   => Exec['apt_update']
           }
         }
       }
