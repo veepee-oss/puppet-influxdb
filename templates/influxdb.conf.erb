@@ -64,21 +64,21 @@ hostname = "<%= @hostname %>"
 
   # CacheMaxMemorySize is the maximum size a shard's cache can
   # reach before it starts rejecting writes.
-  # cache-max-memory-size = 1048576000
+  cache-max-memory-size =  <%= @cache_max_memory_size %>
 
   # CacheSnapshotMemorySize is the size at which the engine will
   # snapshot the cache and write it to a TSM file, freeing up memory
-  # cache-snapshot-memory-size = 26214400
+  cache-snapshot-memory-size = <%= @cache_snapshot_memory_size %>
 
   # CacheSnapshotWriteColdDuration is the length of time at
   # which the engine will snapshot the cache and write it to
   # a new TSM file if the shard hasn't received writes or deletes
-  # cache-snapshot-write-cold-duration = "10m"
+  cache-snapshot-write-cold-duration = <%= @cache_snapshot_write_cold_duration %>
 
   # CompactFullWriteColdDuration is the duration at which the engine
   # will compact all TSM files in a shard if it hasn't received a
   # write or delete
-  # compact-full-write-cold-duration = "4h"
+  compact-full-write-cold-duration = <%= @compact_full_write_old_duration %>
 
   # The maximum  series allowed per  database before writes are  dropped.  This
   # limit  can prevent  high cardinality  issues at  the database  level.  This
