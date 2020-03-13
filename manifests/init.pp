@@ -32,6 +32,7 @@ class influxdb (
   $http_bind_socket        = $influxdb::params::http_bind_socket,
   $logging_format          = $influxdb::params::logging_format,
   $logging_level           = $influxdb::params::logging_level,
+  $index_version		   = $influxdb::params::index_version,
   $max_series_per_database = $influxdb::params::max_series_per_database,
   $max_values_per_tag      = $influxdb::params::max_values_per_tag,
   $udp_enable              = $influxdb::params::udp_enable,
