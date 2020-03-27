@@ -61,6 +61,15 @@ hostname = "<%= @hostname %>"
   query-log-enabled = false
 
   # Settings for the TSM engine
+  
+  # The type of shard index to use for new shards.  The default is an in-memory index that is
+  # recreated at startup.  A value of "tsi1" will use a disk based index that supports higher
+  # cardinality datasets.
+  <% if @index_version %>
+  index-version = <%= @index_version %>
+  <% else %>
+  # index-version = "inmem"
+  <% end %>
 
   # CacheMaxMemorySize is the maximum size a shard's cache can
   # reach before it starts rejecting writes.
