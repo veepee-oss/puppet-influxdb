@@ -66,7 +66,7 @@ hostname = "<%= @hostname %>"
   # recreated at startup.  A value of "tsi1" will use a disk based index that supports higher
   # cardinality datasets.
   <% if @index_version %>
-  index-version = <%= @index_version %>
+  index-version = "<%= @index_version %>"
   <% else %>
   # index-version = "inmem"
   <% end %>
