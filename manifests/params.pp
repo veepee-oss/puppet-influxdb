@@ -1,8 +1,7 @@
 # == Class: influxdb::params
 #
 class influxdb::params {
-  $libdir                  				    = '/var/lib/influxdb'
-
+  $libdir                             = '/var/lib/influxdb'
   $admin_enable                       = false
   $admin_bind_address                 = '0.0.0.0:8083'
   $admin_username                     = 'admin'
@@ -18,20 +17,19 @@ class influxdb::params {
   $http_bind_socket                   = '/var/run/influxdb.sock'
   $logging_format                     = 'auto'
   $logging_level                      = 'info'
-  $index_version		                  = undef
-  $cache_max_memory_size   				    = '1048576000'
-  $cache_snapshot_memory_size			    = '26214400'
-  $cache_snapshot_write_cold_duration	= '10m'
-  $compact_full_write_old_duration		= '4h'
+  $index_version                      = undef
+  $cache_max_memory_size              = '1048576000'
+  $cache_snapshot_memory_size         = '26214400'
+  $cache_snapshot_write_cold_duration = '10m'
+  $compact_full_write_old_duration    = '4h'
   $max_series_per_database            = '1000000'
   $max_values_per_tag                 = '100000'
   $udp_enable                         = false
   $udp_bind_address                   = '0.0.0.0:8089'
-
-  $graphite_enable         				    = false
-  $graphite_database       				    = 'graphite'
-  $graphite_listen         				    = ':2003'
-  $graphite_templates      				    = [
+  $graphite_enable                    = false
+  $graphite_database                  = 'graphite'
+  $graphite_listen                    = ':2003'
+  $graphite_templates                 = [
     '*.app env.service.resource.measurement',
     'server', # default template
   ]
@@ -61,8 +59,7 @@ class influxdb::params {
       }
     }
     default                    : {
-      fail("Module ${module_name} \
-      is not supported on ${::operatingsystem}")
+      fail("Module ${module_name} is not supported on ${::operatingsystem}")
     }
   }
 }
