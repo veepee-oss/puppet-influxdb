@@ -32,6 +32,7 @@ class influxdb (
   $http_bind_socket        				    = $influxdb::params::http_bind_socket,
   $logging_format          				    = $influxdb::params::logging_format,
   $logging_level           				    = $influxdb::params::logging_level,
+  $index_version                      = $influxdb::params::index_version,
   $cache_max_memory_size   				    = $influxdb::params::cache_max_memory_size,
   $cache_snapshot_memory_size			    = $influxdb::params::cache_snapshot_memory_size,
   $cache_snapshot_write_cold_duration	= $influxdb::params::cache_snapshot_write_cold_duration,
