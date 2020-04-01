@@ -63,7 +63,7 @@ request.
    ╚═(███)═╝
 ```
 
-[license-img]: https://img.shields.io/badge/license-Apache-blue.svg
+[license-img]: https://img.shields.io/badge/license-ISC-blue.svg
 [license-href]: LICENSE
 [overview-href]: https://www.influxdata.com/time-series-platform/influxdb/
 [contribute-href]: CONTRIBUTING.md
