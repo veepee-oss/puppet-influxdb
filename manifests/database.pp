@@ -9,46 +9,35 @@ define influxdb::database (
   $admin_password                    = $influxdb::admin_password
 ) {
   if $https_enable {
-    $cmd = 'influx -ssl -unsafeSsl'
+    $ssl_opts = '-ssl -unsafeSsl'
   } else {
-    $cmd = 'influx'
+    $ssl_opts = ''
   }
-  if ($ensure == 'absent') and ($http_auth_enabled == true) {
+
+  if $http_auth_enabled {
+    $auth_opts = "-username ${admin_username} -password '${admin_password}'"
+  } else {
+    $auth_opts = ''
+  }
+
+  $cmd = "influx ${ssl_opts} ${auth_opts}"
+
+  if ($ensure == 'absent') {
     exec { "drop_database_${db_name}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      command => "${cmd} \
         -execute 'DROP DATABASE ${db_name}'",
-      onlyif  =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      onlyif  => "${cmd} \
         -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
       require => Class['influxdb']
     }
-  } elsif ($ensure == 'present') and ($http_auth_enabled == true) {
+  } elsif ($ensure == 'present') {
     exec { "create_database_${db_name}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      command => "${cmd} \
         -execute 'CREATE DATABASE ${db_name}'",
-      unless  =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      unless  => "${cmd} \
         -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
-      require => Class['influxdb']
-    }
-  } elsif ($ensure == 'present') and ($http_auth_enabled == false) {
-    exec { "create_database_${db_name}":
-      path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command => "${cmd} -execute 'CREATE DATABASE ${db_name}'",
-      unless  =>
-        "${cmd} -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
-      require => Class['influxdb']
-    }
-  } elsif ($ensure == 'absent') and ($http_auth_enabled == false) {
-    exec { "drop_database_${db_name}":
-      path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command => "${cmd} -execute 'DROP DATABASE ${db_name}'",
-      onlyif  =>
-        "${cmd} -execute 'SHOW DATABASES' | tail -n+3 | grep -x ${db_name}",
       require => Class['influxdb']
     }
   }
