@@ -11,48 +11,36 @@ define influxdb::privilege (
   $admin_password                         = $influxdb::admin_password
 ) {
   if $https_enable {
-    $cmd = 'influx -ssl -unsafeSsl'
+    $ssl_opts = '-ssl -unsafeSsl'
   } else {
-    $cmd = 'influx'
+    $ssl_opts = ''
   }
+
+  if $http_auth_enabled {
+    $auth_opts = "-username ${admin_username} -password '${admin_password}'"
+  } else {
+    $auth_opts = ''
+  }
+
+  $cmd = "influx ${ssl_opts} ${auth_opts}"
+
   $matches = "grep ${db_name} | grep ${privilege}"
-  if ($ensure == 'absent') and ($http_auth_enabled == true) {
+
+  if ($ensure == 'absent') {
     exec { "revoke_${privilege}_on_${db_name}_to_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      command => "${cmd} \
          -execute 'REVOKE ${privilege} ON \"${db_name}\" TO \"${db_user}\"'",
-      onlyif  =>
-        "${cmd} -username ${admin_username} -password '${admin_password}'\
+      onlyif  => "${cmd} \
         -execute  'SHOW GRANTS FOR \"${db_user}\"' | ${matches}"
     }
-  } elsif ($ensure == 'present') and ($http_auth_enabled == true) {
+  } elsif ($ensure == 'present') {
     exec { "grant_${privilege}_on_${db_name}_to_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      command => "${cmd} \
         -execute 'GRANT ${privilege} ON \"${db_name}\" TO \"${db_user}\"'",
-      unless  =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      unless  => "${cmd} \
         -execute 'SHOW GRANTS FOR \"${db_user}\"' | ${matches}"
-    }
-  } elsif ($ensure == 'absent') and ($http_auth_enabled == false) {
-    exec { "revoke_${privilege}_on_${db_name}_to_${db_user}":
-      path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -execute 'REVOKE ${privilege} ON \"${db_name}\" \
-        TO \"${db_user}\"'",
-      onlyif  =>
-        "${cmd} -execute  'SHOW GRANTS FOR \"${db_user}\"' | ${matches}"
-    }
-  } elsif ($ensure == 'present') and ($http_auth_enabled == false) {
-    exec { "grant_${privilege}_on_${db_name}_to_${db_user}":
-      path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -execute 'GRANT ${privilege} ON \"${db_name}\" \
-        TO \"${db_user}\"'",
-      unless  =>
-        "${cmd} -execute 'SHOW GRANTS FOR \"${db_user}\"' | ${matches}"
     }
   }
 }
