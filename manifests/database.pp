@@ -36,17 +36,53 @@ define influxdb::database (
 
     # Try to retain idempotency in common cases like integer number of days or weeks
     # by normalising to "XXh0m0s" as returned by InfluxDB's SHOW RETENTION POLICIES.
-    case $retention_duration {
-      /^(\d+)w$/: {
-        $normalised_retention_duration = sprintf("%dh0m0s", $1 * 24 * 7)
-      }
-      /^(\d+)d$/: {
-        $normalised_retention_duration = sprintf("%dh0m0s", $1 * 24)
-      }
-      default: {
-        $normalised_retention_duration = $retention_duration
-      }
+    if $retention_duration =~ /(\d+)w/ {
+      $duration_weeks = Integer($1)
+    } else {
+      $duration_weeks = 0
     }
+    if $retention_duration =~ /(\d+)d/ {
+      $duration_days = Integer($1)
+    } else {
+      $duration_days = 0
+    }
+    if $retention_duration =~ /(\d+)h/ {
+      $duration_hours = Integer($1)
+    } else {
+      $duration_hours = 0
+    }
+    if $retention_duration =~ /(\d+)m/ {
+      $duration_minutes = Integer($1)
+    } else {
+      $duration_minutes = 0
+    }
+    if $retention_duration =~ /(\d+)s/ {
+      $duration_seconds = Integer($1)
+    } else {
+      $duration_seconds = 0
+    }
+
+    $duration_total_seconds = ((((((( $duration_weeks * 7 ) +
+                                      $duration_days ) * 24 ) +
+                                      $duration_hours ) * 60 ) +
+                                      $duration_minutes ) * 60 ) +
+                                      $duration_seconds
+
+    $normalised_hours = $duration_total_seconds / 3600
+
+    $normalised_minutes = ($duration_total_seconds / 60) - ($normalised_hours * 60)
+
+    $normalised_seconds = $duration_total_seconds - ($normalised_hours * 3600 + $normalised_minutes * 60)
+
+    $normalised_format = if $normalised_hours > 0 {
+      '%dh%dm%ds'
+    } elsif $normalised_minutes > 0 {
+      '%dm%ds'
+    } else {
+      '%ds'
+    }
+
+    $normalised_retention_duration = sprintf($normalised_format, $normalised_hours, $normalised_minutes, $normalised_seconds)
 
     exec { "create_database_${db_name}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
@@ -65,7 +101,8 @@ define influxdb::database (
         \"'\$(${cmd} -execute 'show retention policies on ${db_name}' | tail -n+3 | awk '\$5==\"true\" {print \$1}')'\" \
         ON \"${db_name}\" DURATION ${normalised_retention_duration}'",
       unless  => "${cmd} \
-        -execute 'SHOW RETENTION POLICIES ON ${db_name}' | tail -n+3 | awk '\$5==\"true\" && \$2 ~ /^${normalised_retention_duration}((0m)?0s)?\$/ {OK = 1}; END {exit !OK}'",
+        -execute 'SHOW RETENTION POLICIES ON ${db_name}' | tail -n+3 \
+        | awk '\$5==\"true\" && \$2 ~ /^${normalised_retention_duration}\$/ {OK = 1}; END {exit !OK}'",
       require => Exec["create_database_${db_name}"]
     }
   }
