@@ -69,9 +69,7 @@ define influxdb::database (
                                       $duration_seconds
 
     $normalised_hours = $duration_total_seconds / 3600
-
     $normalised_minutes = ($duration_total_seconds / 60) - ($normalised_hours * 60)
-
     $normalised_seconds = $duration_total_seconds - ($normalised_hours * 3600 + $normalised_minutes * 60)
 
     $normalised_format = if $normalised_hours > 0 {
