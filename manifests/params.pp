@@ -51,11 +51,13 @@ class influxdb::params {
       $influxdb_package_name = ['influxdb']
       $influxdb_service_name = $::operatingsystemmajrelease ? {
         '6' => 'influxdb',
-        '7' => 'influxd'
+        '7' => 'influxd',
+        '8' => 'influxd'
       }
       $influxdb_service_provider = $::operatingsystemmajrelease ? {
         '6' => 'redhat',
-        '7' => 'systemd'
+        '7' => 'systemd',
+        '8' => 'systemd'
       }
     }
     default                    : {
