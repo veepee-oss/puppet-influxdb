@@ -7,6 +7,7 @@ class influxdb (
   $service                            = true,
   $enable                             = true,
   $manage_repo                        = true,
+  $split_client_package               = false,
   $apt_location                       = $influxdb::params::apt_location,
   $apt_release                        = $influxdb::params::apt_release,
   $apt_repos                          = $influxdb::params::apt_repos,
@@ -47,6 +48,12 @@ class influxdb (
   $graphite_templates                 = $influxdb::params::graphite_templates
 
 ) inherits influxdb::params {
+  case $split_client_package {
+        true    : { $package_names = $influxdb_package_name }
+        false   : { $package_names = [$influxdb_package_name[0]] }
+        default : { fail('split_client_package package must be true (if using Debian/Ubuntu distro packages) or false') }
+      }
+
   case $package {
     true    : { $ensure_package = 'present' }
     false   : { $ensure_package = 'purged' }
@@ -67,17 +74,17 @@ class influxdb (
       apt_release           => $apt_release,
       apt_repos             => $apt_repos,
       apt_key               => $apt_key,
-      influxdb_package_name => $influxdb_package_name,
+      influxdb_package_name => $package_names,
       influxdb_service_name => $influxdb_service_name,
     }
 
-    package { $influxdb_package_name[0]:
+    package { $package_names:
       ensure  => $ensure_package,
       require => Class['influxdb::repos'],
     }
   }
   else {
-    package { $influxdb_package_name:
+    package { $package_names:
       ensure  => $ensure_package
     }
   }
@@ -88,7 +95,7 @@ class influxdb (
     hasrestart => true,
     hasstatus  => true,
     provider   => $influxdb_service_provider,
-    require    => Package[$influxdb_package_name[0]],
+    require    => Package[$package_names[0]],
   }
 
   if $ensure_service == 'running' {

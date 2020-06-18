@@ -13,7 +13,7 @@ class influxdb::repos (
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {
       case $::lsbdistcodename {
-        /(buster|n\/a)/   : {
+        /(bullseye|n\/a)/   : {
           if !defined(Class['apt']) {
             include apt
           }
@@ -21,7 +21,7 @@ class influxdb::repos (
           apt::source { 'influxdb':
             ensure   => present,
             location => $apt_location,
-            release  => 'jessie',
+            release  => 'buster',
             repos    => 'stable',
             key      => $apt_key,
             notify   => Exec['apt_update']
