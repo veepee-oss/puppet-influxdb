@@ -11,22 +11,29 @@ define influxdb::user (
   $admin_password                   = $influxdb::admin_password
 ) {
   if $https_enable {
-    $cmd = 'influx -ssl -unsafeSsl'
+    $ssl_opts = '-ssl -unsafeSsl'
   } else {
-    $cmd = 'influx'
+    $ssl_opts = ''
   }
-  if ($ensure == 'absent') and ($http_auth_enabled == true) {
+
+  if $http_auth_enabled {
+    $auth_opts = "-username ${admin_username} -password '${admin_password}'"
+  } else {
+    $auth_opts = ''
+  }
+
+  $cmd = "influx ${ssl_opts} ${auth_opts}"
+
+  if ($ensure == 'absent') {
     exec { "drop_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      command => "${cmd} \
         -execute 'DROP USER \"${db_user}\"'",
-      onlyif  =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      onlyif  => "${cmd} \
         -execute 'SHOW USERS' | tail -n+3 | awk '{print \$1}' |\
         grep -x ${db_user}"
     }
-  } elsif ($ensure == 'present') and ($http_auth_enabled == true) {
+  } elsif ($ensure == 'present') {
     $arg_p = "WITH PASSWORD '${passwd}'"
     if $is_admin {
       $arg_a = 'WITH ALL PRIVILEGES'
@@ -35,34 +42,10 @@ define influxdb::user (
     }
     exec { "create_user_${db_user}":
       path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      command => "${cmd} \
         -execute \"CREATE USER \\\"${db_user}\\\" ${arg_p} ${arg_a}\"",
-      unless  =>
-        "${cmd} -username ${admin_username} -password '${admin_password}' \
+      unless  => "${cmd} \
         -execute 'SHOW USERS' | tail -n+3 | awk '{print \$1}' |\
-        grep -x ${db_user}"
-    }
-  } elsif ($ensure == 'absent') and ($http_auth_enabled == false) {
-    exec { "drop_user_${db_user}":
-      path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command => "${cmd} -execute 'DROP USER \"${db_user}\"'",
-      onlyif  => "${cmd} -execute 'SHOW USERS' | tail -n+3 |\
-      awk '{print \$1}' | grep -x ${db_user}"
-    }
-  } elsif ($ensure == 'present') and ($http_auth_enabled == false) {
-    $arg_p = "WITH PASSWORD '${passwd}'"
-    if $is_admin {
-      $arg_a = 'WITH ALL PRIVILEGES'
-    } else {
-      $arg_a = ''
-    }
-    exec { "create_user_${db_user}":
-      path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
-      command =>
-        "${cmd} -execute \"CREATE USER \\\"${db_user}\\\" ${arg_p} ${arg_a}\"",
-      unless  =>
-        "${cmd} -execute 'SHOW USERS' | tail -n+3 | awk '{print \$1}' |\
         grep -x ${db_user}"
     }
   }

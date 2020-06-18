@@ -100,6 +100,23 @@ class influxdb (
         require   => Service[$influxdb_service_name],
         path      => '/bin:/usr/bin',
       }
+
+      if $http_auth_enabled {
+        if $https_enable {
+          $influx_init_cmd = 'influx -ssl -unsafeSsl'
+        } else {
+          $influx_init_cmd = 'influx'
+        }
+        exec { 'create_influxdb_admin_user':
+          path    => '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin',
+          command => "${influx_init_cmd} -execute \
+            \"CREATE USER ${admin_username} WITH PASSWORD '${admin_password}' WITH ALL PRIVILEGES\"",
+          unless  => "${influx_init_cmd} \
+            -username ${admin_username} -password '${admin_password}' -execute \
+            'SHOW USERS' | tail -n+3 | awk '{print \$1}' | grep -x ${admin_username}",
+          require =>  Exec['wait_for_influxdb_to_listen'],
+          }
+      }
   }
 
   file { '/etc/influxdb/influxdb.conf':
