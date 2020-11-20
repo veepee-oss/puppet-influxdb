@@ -14,6 +14,7 @@ class influxdb::params {
   $http_realm                         = 'InfluxDB'
   $http_log_enabled                   = true
   $https_enable                       = false
+  $http_socket_enable                 = false
   $http_bind_socket                   = '/var/run/influxdb.sock'
   $logging_format                     = 'auto'
   $logging_level                      = 'info'

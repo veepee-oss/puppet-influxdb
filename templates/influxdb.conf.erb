@@ -263,7 +263,7 @@ hostname = "<%= @hostname %>"
   # max-connection-limit = 0
 
   # Enable http service over unix domain socket
-  # unix-socket-enabled = false
+  unix-socket-enabled = <%= @http_socket_enable %>
 
   # The path of the unix domain socket.
   bind-socket = "<%= @http_bind_socket %>"

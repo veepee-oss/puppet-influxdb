@@ -30,6 +30,7 @@ class influxdb (
   $http_realm                         = $influxdb::params::http_realm,
   $http_log_enabled                   = $influxdb::params::http_log_enabled,
   $https_enable                       = $influxdb::params::https_enable,
+  $http_socket_enable                 = $influxdb::params::http_socket_enable,
   $http_bind_socket                   = $influxdb::params::http_bind_socket,
   $logging_format                     = $influxdb::params::logging_format,
   $logging_level                      = $influxdb::params::logging_level,
