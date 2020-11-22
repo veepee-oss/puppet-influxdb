@@ -79,10 +79,31 @@ class influxdb (
       influxdb_service_name => $influxdb_service_name,
     }
 
-    package { $package_names:
-      ensure  => $ensure_package,
-      require => Class['influxdb::repos'],
+    case $::operatingsystem {
+      /(?i:debian|devuan|ubuntu)/: {
+        package { $package_names:
+          ensure  => $ensure_package,
+          require => [
+            Class['influxdb::repos'],
+            Exec['apt_update']
+          ],
+        }
+      }
+      /(?i:centos|fedora|redhat)/: {
+        package { $package_names:
+          ensure  => $ensure_package,
+          require => [
+            Class['influxdb::repos'],
+            Exec['influxdb yum update']
+          ],
+        }
+      }
+      default                    : {
+        fail("Module ${module_name} \
+        is not supported on ${::operatingsystem}")
+      }
     }
+
   }
   else {
     package { $package_names:
