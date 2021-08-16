@@ -34,6 +34,7 @@ class influxdb::params {
     '*.app env.service.resource.measurement',
     'server', # default template
   ]
+  $default_retention_duration         = undef
 
   case $::operatingsystem {
     /(?i:debian|devuan|ubuntu)/: {
